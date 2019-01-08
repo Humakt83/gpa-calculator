@@ -1,8 +1,10 @@
-<label for="gradeInput">Grade</label>
-<input id="gradeInput" type="number">
-<laber for="extentInput">Extent</laber>
-<input id="extentInput" type="number">
-<input type="button" id="addButton" value="+">
+<form id="gradeForm">
+  <label for="gradeInput">Grade</label>
+  <input id="gradeInput" type="number">
+  <label for="extentInput">Extent</label>
+  <input id="extentInput" type="number">
+  <input type="submit" id="addButton" value="+">
+</form>
 <h4 id="gpa"></h4>
 <p id="gradeArea">
 </p>
@@ -21,7 +23,8 @@ const displayGrades = () => {
   document.getElementById('gradeArea').innerHTML = gradesText  
 }
 
-const addNumbers = () => {
+const addNumbers = (event) => {
+	event.preventDefault()
 	const grade = parseInt(document.getElementById('gradeInput').value)
   const extent = parseInt(document.getElementById('extentInput').value)
 	grades.push({grade, extent})
@@ -29,5 +32,5 @@ const addNumbers = () => {
   calculateGPA()
 }
 
-document.getElementById('addButton').addEventListener('click', addNumbers)
+document.getElementById('gradeForm').addEventListener('submit', addNumbers)
 </script>
