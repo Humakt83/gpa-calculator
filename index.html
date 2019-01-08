@@ -6,3 +6,28 @@
 <h4 id="gpa"></h4>
 <p id="gradeArea">
 </p>
+
+<script>
+const grades = []
+
+const calculateGPA = () => {
+	const totalExtent = grades.map(g => g.extent).reduce((a, b) => a + b, 0)
+	const gpa = grades.map(g => g.grade * g.extent).reduce((a, b) => a + b, 0)
+  document.getElementById('gpa').innerHTML = gpa / totalExtent;
+}
+
+const displayGrades = () => {
+	const gradesText = grades.map(g => `<br>Grade ${g.grade}, Extent ${g.extent}`)
+  document.getElementById('gradeArea').innerHTML = gradesText  
+}
+
+const addNumbers = () => {
+	const grade = parseInt(document.getElementById('gradeInput').value)
+  const extent = parseInt(document.getElementById('extentInput').value)
+	grades.push({grade, extent})
+  displayGrades()
+  calculateGPA()
+}
+
+document.getElementById('addButton').addEventListener('click', addNumbers)
+</script>
