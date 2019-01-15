@@ -1,4 +1,9 @@
+<h1>
+GPA Calculator
+</h1>
 <form id="gradeForm">
+  <label for="gradeName">Course Name</label>
+  <input id="gradeName">
   <label for="gradeInput">Grade</label>
   <input id="gradeInput" type="number">
   <label for="extentInput">Extent</label>
@@ -6,11 +11,18 @@
   <input type="submit" id="addButton" value="+">
 </form>
 <h4 id="gpa"></h4>
-<p id="gradeArea">
-</p>
+<button id="updateButton">
+  Update GPA using values from text area below
+</button>
+<span>
+  Textarea has to follow the format <strong>Name: Grade 5, Extent 5</strong> with each course being on separate line
+</span>
+<br>
+<textarea id="gradeArea" rows="30" cols="120"></textarea>
+
 
 <script>
-const grades = []
+let grades = []
 
 const calculateGPA = () => {
 	const totalExtent = grades.map(g => g.extent).reduce((a, b) => a + b, 0)
@@ -19,18 +31,33 @@ const calculateGPA = () => {
 }
 
 const displayGrades = () => {
-	const gradesText = grades.map(g => `<br>Grade ${g.grade}, Extent ${g.extent}`)
-  document.getElementById('gradeArea').innerHTML = gradesText  
+	const gradesText = grades.map(g => `${g.name || 'Unknown'}: Grade ${g.grade}, Extent ${g.extent}\r\n`)
+  	.reduce((a, b) => a.concat(b), '')
+  document.getElementById('gradeArea').value = gradesText  
 }
 
 const addNumbers = (event) => {
 	event.preventDefault()
+  const name = document.getElementById('gradeName').value
 	const grade = parseInt(document.getElementById('gradeInput').value)
   const extent = parseInt(document.getElementById('extentInput').value)
-	grades.push({grade, extent})
+	grades.push({grade, extent, name})
   displayGrades()
   calculateGPA()
 }
 
+const updateGPA = () => {
+	const gradesText = document.getElementById('gradeArea').value;
+  const converted = gradesText.split('\n').filter(part => part && part.length > 0).map(part => {
+  	const name = part.split(':')[0]
+    const grade = parseInt(part.split('Grade ')[1].split(',')[0])
+    const extent = parseInt(part.split('Extent ')[1])
+  	return {name, grade, extent}
+  })
+  grades = converted
+  calculateGPA()
+}
+
 document.getElementById('gradeForm').addEventListener('submit', addNumbers)
+document.getElementById('updateButton').addEventListener('click', updateGPA)
 </script>
