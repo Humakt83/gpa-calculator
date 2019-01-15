@@ -25,34 +25,34 @@ GPA Calculator
 let grades = []
 
 const calculateGPA = () => {
-	const totalExtent = grades.map(g => g.extent).reduce((a, b) => a + b, 0)
-	const gpa = grades.map(g => g.grade * g.extent).reduce((a, b) => a + b, 0)
+  const totalExtent = grades.map(g => g.extent).reduce((a, b) => a + b, 0)
+  const gpa = grades.map(g => g.grade * g.extent).reduce((a, b) => a + b, 0)
   document.getElementById('gpa').innerHTML = gpa / totalExtent;
 }
 
 const displayGrades = () => {
-	const gradesText = grades.map(g => `${g.name || 'Unknown'}: Grade ${g.grade}, Extent ${g.extent}\r\n`)
-  	.reduce((a, b) => a.concat(b), '')
+  const gradesText = grades.map(g => `${g.name || 'Unknown'}: Grade ${g.grade}, Extent ${g.extent}\r\n`)
+    .reduce((a, b) => a.concat(b), '')
   document.getElementById('gradeArea').value = gradesText  
 }
 
 const addNumbers = (event) => {
-	event.preventDefault()
+  event.preventDefault()
   const name = document.getElementById('gradeName').value
-	const grade = parseInt(document.getElementById('gradeInput').value)
+  const grade = parseInt(document.getElementById('gradeInput').value)
   const extent = parseInt(document.getElementById('extentInput').value)
-	grades.push({grade, extent, name})
+  grades.push({grade, extent, name})
   displayGrades()
   calculateGPA()
 }
 
 const updateGPA = () => {
-	const gradesText = document.getElementById('gradeArea').value;
+  const gradesText = document.getElementById('gradeArea').value;
   const converted = gradesText.split('\n').filter(part => part && part.length > 0).map(part => {
-  	const name = part.split(':')[0]
+    const name = part.split(':')[0]
     const grade = parseInt(part.split('Grade ')[1].split(',')[0])
     const extent = parseInt(part.split('Extent ')[1])
-  	return {name, grade, extent}
+    return {name, grade, extent}
   })
   grades = converted
   calculateGPA()
